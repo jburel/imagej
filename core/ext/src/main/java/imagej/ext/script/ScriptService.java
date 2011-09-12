@@ -84,7 +84,7 @@ public class ScriptService extends AbstractService {
 		reloadScriptLanguages();
 
 		final ArrayList<PluginInfo<?>> plugins = new ArrayList<PluginInfo<?>>();
-		new ScriptFinder().findPlugins(plugins);
+		new ScriptFinder(this).findPlugins(plugins);
 		pluginService.addPlugins(plugins);
 
 	}

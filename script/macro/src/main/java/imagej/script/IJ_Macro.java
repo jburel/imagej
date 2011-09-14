@@ -34,11 +34,10 @@ POSSIBILITY OF SUCH DAMAGE.
 
 package imagej.script;
 
-import imagej.util.Log;
-
 import imagej.ext.script.AbstractScriptEngine;
 import imagej.ext.script.AbstractScriptEngineFactory;
 import imagej.ext.script.ScriptLanguage;
+import imagej.util.Log;
 
 import java.io.Reader;
 import java.lang.reflect.Method;

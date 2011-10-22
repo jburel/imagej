@@ -75,7 +75,8 @@ public class ScriptFinder {
 	 * @param plugins The collection to which the discovered scripts are added
 	 */
 	public void findPlugins(final List<PluginInfo<?>> plugins) {
-		final String path = System.getProperty("plugins.dir");
+		final String path = //System.getProperty("plugins.dir");
+"/home/gene099/fiji";
 		if (path == null) return;
 
 		File directory = new File(path);

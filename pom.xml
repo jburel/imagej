@@ -33,7 +33,6 @@
 		<jetty.version>8.0.0.M1</jetty.version>
 		<junit.version>4.8.1</junit.version>
 		<sezpoz.version>1.9</sezpoz.version>
-		<javassist.version>3.9.0.GA</javassist.version>
 
 		<!-- NB: Avoid platform encoding warning when copying resources. -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

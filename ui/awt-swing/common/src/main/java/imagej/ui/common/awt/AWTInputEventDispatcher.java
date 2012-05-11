@@ -284,6 +284,10 @@ public class AWTInputEventDispatcher implements KeyListener, MouseListener,
 
 	/** Updates last known mouse coordinates. */
 	private void updateMouseCoords(MouseEvent e) {
+		// CTR CHECK:
+		// Old code:
+//		x = e.getX() - displayViewer.getCanvas().getPanOrigin().x;
+//		y = e.getY() - displayViewer.getCanvas().getPanOrigin().y;
 		x = e.getX();
 		y = e.getY();
 	}

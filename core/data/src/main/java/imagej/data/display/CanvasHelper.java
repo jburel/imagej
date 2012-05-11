@@ -119,7 +119,7 @@ public class CanvasHelper implements Pannable, Zoomable {
 	}
 
 	/** The {@link ImageCanvas} on which this helper operates. */
-	private final DefaultImageCanvas canvas;
+	private final ImageCanvas canvas;
 
 	/** The standard zoom levels for the canvas */
 	private final double[] zoomLevels;
@@ -129,12 +129,11 @@ public class CanvasHelper implements Pannable, Zoomable {
 
 	// -- constructors --
 
-	public CanvasHelper(final DefaultImageCanvas canvas) {
+	public CanvasHelper(final ImageCanvas canvas) {
 		this(canvas, defaultZoomLevels());
 	}
 
-	public CanvasHelper(final DefaultImageCanvas canvas, final double[] zoomLevels)
-	{
+	public CanvasHelper(final ImageCanvas canvas, final double[] zoomLevels) {
 		this.canvas = canvas;
 		this.zoomLevels = validatedZoomLevels(zoomLevels);
 	}
@@ -326,6 +325,8 @@ public class CanvasHelper implements Pannable, Zoomable {
 	 * @return the coordinate of the left edge of the viewport in image space.
 	 */
 	private double getLeftImageX() {
+		// CTR CHECK
+		// Old: return (double)(canvas.getViewportWidth()) / canvas.getZoomFactor() / 2;
 		return getPanCenter().x - canvas.getViewportWidth() /
 			canvas.getZoomFactor() / 2;
 	}
@@ -334,6 +335,8 @@ public class CanvasHelper implements Pannable, Zoomable {
 	 * @return the coordinate of the top edge of the viewport in image space.
 	 */
 	private double getTopImageY() {
+		// CTR CHECK
+		// Old: return (double)(canvas.getViewportHeight()) / canvas.getZoomFactor() / 2;
 		return getPanCenter().y - canvas.getViewportHeight() /
 			canvas.getZoomFactor() / 2;
 	}

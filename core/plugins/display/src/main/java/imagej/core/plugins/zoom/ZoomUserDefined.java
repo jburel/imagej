@@ -134,6 +134,14 @@ public class ZoomUserDefined extends DynamicPlugin {
 
 	@Override
 	public void run() {
+		// CTR CHECK
+		// Old code:
+//		final double percentX = 1.0 * centerU / maxU;
+//		final double percentY = 1.0 * centerV / maxV;
+//		final int cx = (int) (percentX * display.getCanvas().getCanvasWidth());
+//		final int cy = (int) (percentY * display.getCanvas().getCanvasHeight());
+//		final IntCoords center = new IntCoords(cx, cy);
+//		display.getCanvas().setZoom(zoomPercent / 100.0, center);
 		display.getCanvas().setZoom(zoomPercent / 100.0,
 				new RealCoords(getCenterU(), getCenterV()));
 	}

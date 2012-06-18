@@ -35,57 +35,13 @@
 
 package imagej.ui.swing.plugins.debug;
 
-import imagej.event.ImageJEvent;
-import imagej.ext.plugin.ImageJPlugin;
-import imagej.ext.plugin.Parameter;
-import imagej.ext.plugin.Plugin;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 /**
- * Listens for events, displaying results in a text window.
+ * Listener for event history changes.
  * 
  * @author Curtis Rueden
  */
-@Plugin(menuPath = "Plugins>Debug>Watch Events")
-public class WatchEvents implements ImageJPlugin, EventHistoryListener {
+public interface EventHistoryListener {
 
-	// -- Parameters --
-
-	@Parameter
-	private EventHistory eventHistory;
-
-	// -- Fields --
-
-	private WatchEventsFrame watchEventsFrame;
-
-	// -- Runnable methods --
-
-	@Override
-	public void run() {
-		watchEventsFrame = new WatchEventsFrame(eventHistory);
-
-		// update UI when event history changes
-		eventHistory.addListener(this);
-
-		// stop listening for history changes once the UI disappears
-		watchEventsFrame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(final WindowEvent e) {
-				eventHistory.removeListener(WatchEvents.this);
-			}
-		});
-
-		watchEventsFrame.setVisible(true);
-	}
-
-	// -- EventHistoryListener methods --
-
-	@Override
-	public void eventOccurred(final EventDetails details) {
-		watchEventsFrame.append(details);
-	}
+	void eventOccurred(EventDetails details);
 
 }

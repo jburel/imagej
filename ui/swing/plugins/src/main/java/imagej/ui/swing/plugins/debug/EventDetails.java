@@ -36,56 +36,73 @@
 package imagej.ui.swing.plugins.debug;
 
 import imagej.event.ImageJEvent;
-import imagej.ext.plugin.ImageJPlugin;
-import imagej.ext.plugin.Parameter;
-import imagej.ext.plugin.Plugin;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
- * Listens for events, displaying results in a text window.
+ * Caches details of a particular {@link ImageJEvent}, without saving the event
+ * itself (since doing so could leave dangling references).
  * 
  * @author Curtis Rueden
  */
-@Plugin(menuPath = "Plugins>Debug>Watch Events")
-public class WatchEvents implements ImageJPlugin, EventHistoryListener {
+public class EventDetails {
 
-	// -- Parameters --
+	private final Date timestamp;
+	private final Class<? extends ImageJEvent> eventClass;
+	private final String eventString;
 
-	@Parameter
-	private EventHistory eventHistory;
-
-	// -- Fields --
-
-	private WatchEventsFrame watchEventsFrame;
-
-	// -- Runnable methods --
-
-	@Override
-	public void run() {
-		watchEventsFrame = new WatchEventsFrame(eventHistory);
-
-		// update UI when event history changes
-		eventHistory.addListener(this);
-
-		// stop listening for history changes once the UI disappears
-		watchEventsFrame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(final WindowEvent e) {
-				eventHistory.removeListener(WatchEvents.this);
-			}
-		});
-
-		watchEventsFrame.setVisible(true);
+	public EventDetails(final ImageJEvent event) {
+		timestamp = new Date();
+		eventClass = event.getClass();
+		eventString = event.toString();
 	}
 
-	// -- EventHistoryListener methods --
+	// -- EventDetails methods --
 
-	@Override
-	public void eventOccurred(final EventDetails details) {
-		watchEventsFrame.append(details);
+	public Class<? extends ImageJEvent> getEventClass() {
+		return eventClass;
+	}
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
+
+	public String getEventString() {
+		return eventString;
+	}
+
+	public String toHTML(final boolean bold) {
+		final StringBuilder sb = new StringBuilder();
+		if (bold) sb.append("<strong>");
+
+		// append timestamp
+		sb.append("<font color=\"gray\">[");
+		sb.append(timestampAsString());
+		sb.append("] </font>");
+
+		// append event class name
+		sb.append("<font color=\"green\">");
+		sb.append(eventClass.getSimpleName());
+		sb.append("</font>");
+
+		// append event string
+		sb.append("<font color=\"black\">");
+		sb.append(eventString);
+		sb.append("</font>");
+
+		if (bold) sb.append("</strong>");
+		return sb.toString();
+	}
+
+	// -- Helper methods --
+
+	private String timestampAsString() {
+		final SimpleDateFormat formatter =
+			new SimpleDateFormat("hh:mm:ss.SS", Locale.getDefault());
+		final String dateStr = formatter.format(timestamp);
+		return dateStr;
 	}
 
 }
